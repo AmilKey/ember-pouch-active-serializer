@@ -6,6 +6,5 @@ PouchDB.debug.enable('*');
 var db = new PouchDB('local_pouch');
 
 export default Adapter.extend({
-  // defaultSerializer: '-active-model',
   db,
 });

@@ -1,3 +1,3 @@
-import { ActiveModelSerializer } from 'active-model-adapter';
-
-export default ActiveModelSerializer.extend();
+// import { ActiveModelSerializer } from 'active-model-adapter';
+import { Serializer } from 'ember-pouch';
+export default Serializer.extend();
