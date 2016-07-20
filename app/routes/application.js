@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const all = Ember.RSVP.all;
+
 export default Ember.Route.extend({
 
   model(){
@@ -13,7 +15,19 @@ export default Ember.Route.extend({
       ];
       post.get('comments').pushObjects(comments);
       return Ember.RSVP.all(comments.map((c)=>c.save()));
-    }).then(()=>{
+    }).then((savedComments)=>{
+      const sc = savedComments.map(com=> {
+        const answers = [
+          this.store.createRecord('answer', {body: '111', comment: com}),
+          this.store.createRecord('answer', {body: '222', comment: com}),
+          this.store.createRecord('answer', {body: '333', comment: com}),
+        ];
+        com.get('answers').pushObjects(answers);
+        return all(answers.map((a)=>a.save())).then(()=> com.save());
+      });
+
+      return all(sc);
+    }).then(()=> {
       return post.save();
     });
   }
